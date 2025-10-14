@@ -7,7 +7,16 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error
 import joblib
 import json
+import os
 
+# Add at the top of train_baseline_model() function
+ARTIFACTS_DIR = "artifacts"
+MODELS_DIR = os.path.join(ARTIFACTS_DIR, "models")
+METRICS_DIR = os.path.join(ARTIFACTS_DIR, "metrics")
+
+# Create directories if they don't exist
+os.makedirs(MODELS_DIR, exist_ok=True)
+os.makedirs(METRICS_DIR, exist_ok=True)
 # Set seeds for reproducibility
 np.random.seed(42)
 
@@ -69,8 +78,8 @@ def train_baseline_model():
     print(f"Baseline Model RMSE: {rmse:.4f}")
     
     # Save artifacts
-    joblib.dump(model, "model.joblib")
-    joblib.dump(scaler, "scaler.joblib")
+    joblib.dump(model, os.path.join(MODELS_DIR, "model.joblib"))
+    joblib.dump(scaler, os.path.join(MODELS_DIR, "scaler.joblib"))
     
     # Save metrics
     metrics = {
@@ -83,7 +92,8 @@ def train_baseline_model():
             "feature_names": list(X.columns)
         }
     }
-    with open("metrics.json", "w") as f:
+    metrics_path = os.path.join(METRICS_DIR, "metrics.json")
+    with open(metrics_path, "w") as f:
         json.dump(metrics, f, indent=2)
     
     print("Model training completed! Artifacts saved.")

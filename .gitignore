@@ -26,10 +26,10 @@ env/
 venv/
 
 # Model artifacts (don't commit large files)
+artifacts/
 *.joblib
 *.pkl
 *.model
-metrics.json
 
 # IDE
 .vscode/

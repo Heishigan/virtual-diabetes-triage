@@ -8,16 +8,16 @@ app = FastAPI(
 )
 
 class DataStructure(BaseModel):
-    age: int = Field(description = "Age in years", ge = 0, le = 120)
-    sex: int = Field(description = "Sex indicator (1 = female, 2 = male)", ge = 1, le = 2) # kinda guessing tbh since the dataset doesn't specify, no info on it from the original paper the data comes from as well
-    bmi: float = Field(description = "Body Mass Index", gt = 0, le = 70)
-    bp: float = Field(description = "Mean arterial blood pressure",gt = 0)
-    s1: int = Field(description = "tc (total serum cholesterol)", gt = 0)
-    s2: float = Field(description = "ldl (low-density lipoproteins)", gt = 0)
-    s3: float = Field(description = "hdl (high-density lipoproteins)", gt = 0)
-    s4: float = Field(description = "tch (total cholesterol / HDL)", gt = 0)
-    s5: float = Field(description = "ltg (possibly log of serum triglycerides level)", gt = 0)
-    s6: int = Field(description = "glu (blood sugar level)", gt = 0) 
+    age: float = Field(description="Standardized age")
+    sex: float = Field(description="Standardized sex indicator")
+    bmi: float = Field(description="Standardized Body Mass Index")
+    bp: float = Field(description="Standardized mean arterial blood pressure")
+    s1: float = Field(description="Standardized tc (total serum cholesterol)")
+    s2: float = Field(description="Standardized ldl (low-density lipoproteins)")
+    s3: float = Field(description="Standardized hdl (high-density lipoproteins)")
+    s4: float = Field(description="Standardized tch (total cholesterol / HDL)")
+    s5: float = Field(description="Standardized ltg (log of serum triglycerides)")
+    s6: float = Field(description="Standardized glu (blood sugar level)")
 
 @app.post("/predict")
 def predict(features: DataStructure):

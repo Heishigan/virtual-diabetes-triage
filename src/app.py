@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel, Field
-from src.model import get_model, MODEL_VERSION
+from model import get_model, MODEL_VERSION
 
 app = FastAPI(
     title = "Virtual Diabetese Triage API",
@@ -23,7 +23,7 @@ class DataStructure(BaseModel):
 def predict(features: DataStructure):
     try:
         model = get_model()
-        prediction = model.predict(features.dict())
+        prediction = model.predict(features.model_dump())
         return {"prediction": prediction, "model_version": MODEL_VERSION}
     except ValueError as e:
         raise HTTPException(status_code = 422, detail=str(e))

@@ -20,7 +20,7 @@ except FileNotFoundError:
 except json.JSONDecodeError:
     MODEL_VERSION = "v0.0_error"
 
-FEATURE_NAMES = ['age','sex','bmi','bp','s1','s2','s3','s4','s5','s6']
+FEATURE_NAMES = ['age', 'sex', 'bmi', 'bp', 's1', 's2', 's3', 's4', 's5', 's6']
 
 class DataModel:
     def __init__(self, model_path = MODEL_PATH, scaler_path = SCALER_PATH):
@@ -34,7 +34,7 @@ class DataModel:
         if missing:
             raise ValueError(f"Missing features: {missing}")
 
-        X_input = pd.DataFrame([features[f] for f in FEATURE_NAMES], index=FEATURE_NAMES).T
+        X_input = pd.DataFrame([features[f] for f in FEATURE_NAMES], index = FEATURE_NAMES).T
         X_scaled = self.scaler.transform(X_input)
         y_pred = self.model.predict(X_scaled)
         # print(X_scaled) # scales seem off

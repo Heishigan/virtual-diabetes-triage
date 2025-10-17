@@ -13,8 +13,8 @@ import json
 # METRICS_PATH = os.path.join(METRICS_DIR, "metrics.json")
 
 MODEL_VERSION = os.getenv("MODEL_VERSION", "local-dev")
-MODEL_PATH = "/app/model.joblib"
-SCALER_PATH = "/app/scaler.joblib"
+MODEL_PATH = os.getenv("MODEL_PATH", "/app/model.joblib")
+SCALER_PATH = os.getenv("SCALER_PATH", "/app/scaler.joblib")
 
 # try:
 #     with open(METRICS_PATH, 'r') as f:

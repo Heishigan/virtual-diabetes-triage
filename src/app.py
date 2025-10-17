@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel, Field
-from model import get_model, MODEL_VERSION
+from .model import get_model, MODEL_VERSION
 
 app = FastAPI(
     title = "Virtual Diabetese Triage API",

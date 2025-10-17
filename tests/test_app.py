@@ -2,14 +2,18 @@ import sys
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-SRC_DIR = PROJECT_ROOT / "src"
-if str(SRC_DIR) not in sys.path:
-    sys.path.insert(0, str(SRC_DIR))
+# SRC_DIR = PROJECT_ROOT / "src"
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from fastapi.testclient import TestClient
-import app as app_module
+import src.app as app_module
 
 client = TestClient(app_module.app)
+
+def fake_get_model():
+    """Returns our fake model instance"""
+    return FakeModel()
 
 class FakeModel:
     def predict(self, features: dict):
@@ -24,7 +28,9 @@ def test_health_endpoint_returns_ok():
     assert "model_version" in payload
 
 # Test /predict endpoint returns correct prediction with valid input
-def test_predict_success():
+def test_predict_success(monkeypatch):
+    monkeypatch.setattr(app_module, "get_model", fake_get_model)
+
     valid_payload = {
         "age": 0.038076,
         "sex": 0.050680,

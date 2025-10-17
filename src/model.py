@@ -12,6 +12,7 @@ import json
 # SCALER_PATH = os.path.join(MODELS_DIR, "scaler.joblib")
 # METRICS_PATH = os.path.join(METRICS_DIR, "metrics.json")
 
+MODEL_VERSION = os.getenv("MODEL_VERSION", "local-dev")
 MODEL_PATH = "/app/model.joblib"
 SCALER_PATH = "/app/scaler.joblib"
 

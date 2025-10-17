@@ -8,15 +8,16 @@ from sklearn.metrics import mean_squared_error
 import joblib
 import json
 import os
+import argparse
 
 # Add at the top of train_baseline_model() function
-ARTIFACTS_DIR = "artifacts"
-MODELS_DIR = os.path.join(ARTIFACTS_DIR, "models")
-METRICS_DIR = os.path.join(ARTIFACTS_DIR, "metrics")
-
-# Create directories if they don't exist
-os.makedirs(MODELS_DIR, exist_ok=True)
-os.makedirs(METRICS_DIR, exist_ok=True)
+# ARTIFACTS_DIR = "artifacts"
+# MODELS_DIR = os.path.join(ARTIFACTS_DIR, "models")
+# METRICS_DIR = os.path.join(ARTIFACTS_DIR, "metrics")
+#
+# # Create directories if they don't exist
+# os.makedirs(MODELS_DIR, exist_ok=True)
+# os.makedirs(METRICS_DIR, exist_ok=True)
 # Set seeds for reproducibility
 np.random.seed(42)
 
@@ -45,7 +46,7 @@ def load_data():
     y = data.frame["target"]
     return X, y
 
-def train_baseline_model():
+def train_baseline_model(model_version, output_path):
     """Train v0.1 baseline model"""
     print("Loading and exploring data...")
     data = explore_data()
@@ -76,15 +77,20 @@ def train_baseline_model():
     rmse = np.sqrt(mean_squared_error(y_test, y_pred))
     
     print(f"Baseline Model RMSE: {rmse:.4f}")
+
+    os.makedirs(output_path, exist_ok=True)
+    model_filename = f"model-{model_version}.joblib"
+    scaler_filename = f"scaler-{model_version}.joblib"
+    metrics_filename = f"metrics-{model_version}.json"
     
     # Save artifacts
-    joblib.dump(model, os.path.join(MODELS_DIR, "model.joblib"))
-    joblib.dump(scaler, os.path.join(MODELS_DIR, "scaler.joblib"))
+    joblib.dump(model, os.path.join(output_path, model_filename))
+    joblib.dump(scaler, os.path.join(output_path, scaler_filename))
     
     # Save metrics
     metrics = {
         "rmse": float(rmse), 
-        "model_version": "v0.1",
+        "model_version": model_version,
         "model_type": "LinearRegression",
         "dataset_info": {
             "n_samples": len(X),
@@ -92,7 +98,7 @@ def train_baseline_model():
             "feature_names": list(X.columns)
         }
     }
-    metrics_path = os.path.join(METRICS_DIR, "metrics.json")
+    metrics_path = os.path.join(output_path, metrics_filename)
     with open(metrics_path, "w") as f:
         json.dump(metrics, f, indent=2)
     
@@ -100,4 +106,9 @@ def train_baseline_model():
     return rmse
 
 if __name__ == "__main__":
-    train_baseline_model()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model-version", type=str, required=True)
+    parser.add_argument("--output-path", type=str, required=True)
+    args = parser.parse_args()
+
+    train_baseline_model(model_version=args.model_version, output_path=args.output_path)

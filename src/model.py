@@ -20,7 +20,7 @@ class DataModel:
     def __init__(self, model_path=MODEL_PATH):
         if not os.path.exists(model_path):
             raise FileNotFoundError(
-                f"Model not found at {model_path}. Check Dockerfile and build process."
+                f"Model not found at {model_path}. Check Dockerfile, build process and environment variables."
             )
         
         self.model = joblib.load(model_path)

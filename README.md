@@ -7,7 +7,7 @@ The service provides a "risk score" (a continuous value) that a virtual clinic c
 ## Iteration Plan
 
 * **v0.1 (Magikarp 🎏):** Baseline model using `StandardScaler` + `LinearRegression`.
-* **v0.2 (Gyarados 🐉):** *[In Progress]* Improved model (e.g., `RandomForestRegressor`) to achieve a better RMSE.
+* **v0.2 (Gyarados 🐉):** Improved model (e.g., `RandomForestRegressor`) to achieve a better RMSE.
 
 ---
 

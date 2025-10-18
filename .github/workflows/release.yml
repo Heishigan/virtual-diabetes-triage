@@ -47,14 +47,15 @@ jobs:
             MODEL_VERSION=${{ github.ref_name }}
 
       - name: Run container smoke test
+        env:
+          IMAGE_NAME: ghcr.io/${{ steps.repo_lowercase.outputs.NAME }}:${{ github.ref_name }}
         run: |
-          IMAGE_NAME="ghcr.io/${{ steps.repo_lowercase.outputs.NAME }}:${{ github.ref_name }}"
-          echo "Running smoke test on image: $IMAGE_NAME"
-          docker run -d --rm --name test-container -p 8000:8000 $IMAGE_NAME
+          docker compose up -d
           echo "Waiting for container to start..."
           sleep 15
           curl --fail http://localhost:8000/health
           echo "Smoke test passed!"
+          docker compose down
 
       - name: Determine Codename
         id: codename

@@ -3,7 +3,7 @@ name: Pikachu I Choose You
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   build-and-release:
@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python for training script
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
       - run: pip install -r requirements.txt
 
       - name: Train model and create release assets
@@ -77,5 +77,4 @@ jobs:
           body_path: CHANGELOG.md
           files: |
             ./release_assets/model-${{ github.ref_name }}.joblib
-            ./release_assets/scaler-${{ github.ref_name }}.joblib
             ./release_assets/metrics-${{ github.ref_name }}.json

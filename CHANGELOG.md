@@ -4,7 +4,7 @@ All notable changes to the Virtual Diabetes Triage System.
 
 ---
 
-## [v0.2] - 2025-10-18
+## [v0.2] - 2024-12-XX
 
 ### Added
 
@@ -16,6 +16,8 @@ All notable changes to the Virtual Diabetes Triage System.
 
 - **Selected RandomForestRegressor** as production model (best RMSE)
 - **Removed StandardScaler** - dataset already pre-standardized
+- Simplified Docker image (removed scaler artifact)
+- Simplified Docker image (removed scaler artifact)
 
 ### Fixed
 
@@ -50,7 +52,7 @@ All notable changes to the Virtual Diabetes Triage System.
 
 ---
 
-## [v0.1] - 2025-10-16
+## [v0.1] - 2024-12-16
 
 ### Added
 

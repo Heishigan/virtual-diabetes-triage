@@ -16,6 +16,8 @@ FROM python:3.11-slim
 
 WORKDIR /usr/src/app
 
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+
 COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements.txt .
 
@@ -26,7 +28,6 @@ ENV MODEL_VERSION=${MODEL_VERSION}
 
 COPY ./src /usr/src/app/src
 COPY ./release_assets/model-${MODEL_VERSION}.joblib /app/model.joblib
-COPY ./release_assets/scaler-${MODEL_VERSION}.joblib /app/scaler.joblib
 
 EXPOSE 8000
 

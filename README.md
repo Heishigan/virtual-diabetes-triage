@@ -12,7 +12,40 @@ The service provides a "risk score" (a continuous value) that a virtual clinic c
 ---
 
 ## API Endpoints
-### TODO
+Our API provides two primary endpoints.
+1.  **'GET/health' endpoint:**
+    This endpoint is used to verify that the service is running and to retrieve the current model version.
+    #### Example Request
+    ```bash
+    curl -X 'GET' \
+    'http://127.0.0.1:8000/health' \
+    -H 'accept: application/json'
+    ```
+    #### Expected response:
+    ```bash
+    {
+    "status": "ok",
+    "model_version": "v0.1"
+    }
+    ```
+2.  **'POST/predict' endpoint:**
+    POST call which returns a risk score based on provided values.  
+    #### Example call:
+    ```bash
+    curl -X 'POST' \
+    'http://127.0.0.1:8000/predict' \
+    -H 'accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -d '{ "age": 0.02, "sex": -0.044, "bmi": 0.06, "bp": -0.03, "s1": -0.02, "s2": 0.03, "s3": -0.02, "s4": 0.02, "s5": 0.02, "s6": -0.001 }'
+    ```
+    #### Expected response: 
+    The response includes the calculated prediction (risk score) and the model version used.
+    ```bash
+    {
+    "prediction": 235.9496372217627,
+    "model_version": "v0.1"
+    }
+    ```
 ## How to Run
 
 You can run the service locally (for development) or using the pre-built Docker container (for production/grading).

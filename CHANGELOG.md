@@ -2,53 +2,79 @@
 
 All notable changes to the Virtual Diabetes Triage System.
 
-## [v0.1] - 2024-12-16
+---
+
+## [v0.2] - 2025-10-18
 
 ### Added
 
-- Baseline LinearRegression model with StandardScaler preprocessing
-- REST API with `/health` and `/predict` endpoints using FastAPI
-- Docker container with baked-in model artifacts
-- CI/CD pipeline with GitHub Actions
-- Comprehensive test suite (7 tests with full coverage)
-- Project documentation (README, setup instructions)
+- Model comparison framework (LinearRegression, Ridge, RandomForest)
+- High-risk patient flag at 75th percentile threshold
+- Enhanced metrics: MAE, R², 5-fold cross-validation
+
+### Changed
+
+- **Selected RandomForestRegressor** as production model (best RMSE)
+- **Removed StandardScaler** - dataset already pre-standardized
+
+### Fixed
+
+- Double standardization bug (sklearn diabetes dataset already scaled)
+
+### Metrics
+
+**Regression Performance**
+
+| Metric  | v0.1   | v0.2         | Delta           |
+| ------- | ------ | ------------ | --------------- |
+| RMSE    | 53.853 | 53.680       | -0.173 (-0.32%) |
+| MAE     | -      | 43.562       | -               |
+| R²      | -      | 0.4561       | -               |
+| CV RMSE | -      | 58.478 ±4.90 | -               |
+
+**High-Risk Flag (75th percentile threshold)**
+
+| Metric    | Value           |
+| --------- | --------------- |
+| Precision | 0.7391 (73.91%) |
+| Recall    | 0.5667 (56.67%) |
+| F1-Score  | 0.6415          |
+| Threshold | 179.04          |
+| Flagged   | 23/89 patients  |
 
 ### Technical Details
 
-- **Model**: LinearRegression (scikit-learn)
-- **Features**: 10 standardized diabetes indicators (age, sex, bmi, bp, s1-s6)
-- **Dataset**: sklearn diabetes dataset (442 samples, already standardized)
-- **API Framework**: FastAPI with Pydantic validation
-- **Containerization**: Docker with Python 3.11-slim base
+- **Model**: RandomForestRegressor (n_estimators=100, max_depth=5)
+- **Threshold**: 75th percentile of predicted scores
+- **Rationale**: Removed redundant preprocessing, systematic model selection captured non-linear patterns
+
+---
+
+## [v0.1] - 2025-10-16
+
+### Added
+
+- Baseline LinearRegression model with StandardScaler
+- REST API (`/health`, `/predict`) with FastAPI
+- Docker containerization
+- CI/CD pipeline (GitHub Actions)
+- Test suite (7/7 tests passing)
 
 ### Metrics
 
 - **RMSE**: 53.853
 - **Training time**: ~0.5s
-- **Model size**: ~2KB
-- **Docker image size**: ?
-- **API response time**: <100ms
-- **Test coverage**: 100% (7/7 tests passing)
+- **Model size**: 2KB
+- **API response**: <100ms
 
-### Notes
+### Known Issues
 
-- Features are pre-standardized in the sklearn dataset
-- Prediction range: 50-350 (higher = greater disease progression risk)
-- All dependencies pinned for reproducibility
-
-### Known Limitations
-
-- Uses proxy dataset (sklearn diabetes) instead of real EHR data
-- Model is baseline - no hyperparameter tuning
-- Features require pre-standardization before API call
+- Double standardization (dataset pre-scaled) → Fixed in v0.2
 
 ---
 
-## [Unreleased]
+## Notes
 
-### Planned for v0.2
-
-- Improved model algorithm (Ridge/RandomForest)
-- Enhanced preprocessing pipeline
-- Performance metrics comparison
-- Reduced RMSE by 5%+
+- Dataset: sklearn diabetes (442 samples, 10 features)
+- Prediction range: 50-350 (higher = greater risk)
+- Reproducibility: All seeds set to 42

@@ -52,18 +52,30 @@ You can run the service locally (for development) or using the pre-built Docker 
 
 ### Option 1: Run with Docker (Recommended)
 
-This pulls the pre-built image from the GitHub Container Registry (GHCR) and runs it.
-
-1.  **Pull the image (e.g., v0.1):**
+This is the recommended method to run the service using the pre-built images from GitHub Container Registry (GHCR).
+1.  **Clone the repository:**
     ```bash
-    docker pull ghcr.io/heishigan/virtual-diabetes-triage:v0.1
+    git clone https://github.com/Heishigan/virtual-diabetes-triage.git
+    cd virtual-diabetes-triage
     ```
 
-2.  **Run the container:**
+2.  **Set the Image Version (e.g., v0.1):**
     ```bash
-    docker run -d --rm -p 8000:8000 --name diabetes-api ghcr.io/heishigan/virtual-diabetes-triage:v0.1
+    # On Windows
+    $env:IMAGE_NAME = "ghcr.io/heishigan/virtual-diabetes-triage:v0.1"
+    # On macOS/Linux
+    export IMAGE_NAME="ghcr.io/heishigan/virtual-diabetes-triage:v0.1"
+    ```
+3.  **Run with Docker Compose**
+    ```bash
+    docker compose up -d
     ```
     The API is now available at `http://localhost:8000`. Go to `http://localhost:8000/docs` to access UI version.
+
+4. **Stop the service**
+    ```bash
+    docker compose down
+    ```
 
 ### Option 2: Run Locally (For Development)
 
@@ -116,6 +128,3 @@ This method requires you to train the model first to generate the local artifact
     The API is now available at `http://localhost:8000`. Go to `http://localhost:8000/docs` to access UI version.
 
 ---
-
-## Test the API
-### TODO
